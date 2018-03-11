@@ -1,5 +1,5 @@
 //
-// SilicaTeam 2.0  @dots_tb @SiIicaAndPina ‏
+// SilicaTeam 2.0  @dots_tb @SilicaAndPina ‏
 // RePatch -- PATCHING WITH FREEDOM
 
 // Based off ioPlus by @dots_tb: https://github.com/CelesteBlue-dev/PSVita-RE-tools/tree/master/ioPlus/
