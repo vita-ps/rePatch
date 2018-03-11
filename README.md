@@ -1,5 +1,7 @@
 # How to use:
 
+3.65 Confirmed working: https://twitter.com/dots_tb/status/972922611536576512
+
 First install the plugin by adding it to the *KERNEL line             
 after that create a folder on ux0 called "rePatch"          
 inside that folder put another folder of the titleid for the game           
