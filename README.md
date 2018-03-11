@@ -10,5 +10,5 @@ only you dont need the param.sfo file in sce_sys.
 
 Developed by SilicaAndPina & dots-tb
 
-Intended to allow you to patch games even if theres an update installed.
+Intended to allow you to patch games even if theres an update installed.              
 But i suppose it could potentally fix the ux0:patch problem on >3.61 if the plugin where to be ported to that firmware.
