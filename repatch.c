@@ -29,7 +29,6 @@ static int ksceIoOpenForPid_patched(SceUID pid, const char *filename, int flag, 
 			if(old_path[0] == '/')
 				old_path++;
 			snprintf(new_path, sizeof(new_path), "ux0:/rePatch/%s/%s",titleid,old_path);
-			printf("new path %s\n",new_path);
 			ret = ksceIoOpen(new_path, flag, mode);
 		}
 			
