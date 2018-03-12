@@ -24,7 +24,6 @@ static int ksceIoOpenForPid_patched(SceUID pid, const char *filename, int flag, 
 		char titleid[32];
 		ret = ksceKernelGetProcessTitleId(pid, titleid, sizeof(titleid));
 		if(ret > -1) {
-			strncat(new_path, titleid, sizeof(titleid));
 			char *old_path = strchr(filename, ':') + 1;
 			if(old_path[0] == '/')
 				old_path++;
@@ -48,7 +47,6 @@ static int _sceIoGetstat_patched(const char *file, SceIoStat *stat, int r2) {
 		char titleid[32];
 		ret = ksceKernelGetProcessTitleId(ksceKernelGetProcessId(), titleid, sizeof(titleid));
 		if(ret > -1) {
-			strncat(new_path, titleid, sizeof(titleid));
 			char *old_path = strchr(filename, ':') + 1;
 			if(old_path[0] == '/')
 				old_path++;
