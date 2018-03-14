@@ -2,7 +2,7 @@
 
 3.65 Confirmed working: https://twitter.com/dots_tb/status/972922611536576512
 
-IF THE PATCH REQUIRES AN EBOOT IT WILL NOT WORK ATM!
+Eboot.bin patching added based off: https://github.com/GabyPCgeeK/rePatch
 
 First install the plugin by adding it to the *KERNEL line             
 after that create a folder on ux0 called "rePatch"          
