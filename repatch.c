@@ -69,10 +69,13 @@ static int _sceIoGetstat_patched(const char *file, SceIoStat *stat, int r2) {
 static int ksceIoOpen_patched(const char *filename, int flag, SceIoMode mode) {
 	int ret = -1, state;
 	char new_path[MAX_PATH_LEN];
+	SceIoStat k_stat;
 	ENTER_SYSCALL(state);
 	if(strstr(filename, "/eboot.bin") != NULL) {
-		if(getNewPath(filename, new_path, NULL))
-			ret = TAI_CONTINUE(int, ref_hooks[2], new_path, flag, mode);
+		if(getNewPath(filename, new_path, NULL)) {
+			if(ksceIoGetstat(new_path, &k_stat)>-1)
+				ret = TAI_CONTINUE(int, ref_hooks[2], new_path, flag, mode);
+		}
 	} 
 	if(ret <= 0) ret = TAI_CONTINUE(int, ref_hooks[2], filename, flag, mode);
 	EXIT_SYSCALL(state);
