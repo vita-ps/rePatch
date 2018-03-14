@@ -70,8 +70,11 @@ static int ksceIoOpen_patched(const char *filename, int flag, SceIoMode mode) {
 	int ret = -1, state;
 	char new_path[MAX_PATH_LEN];
 	SceIoStat k_stat;
+	char titleid[32];
 	ENTER_SYSCALL(state);
-	if((flag&SCE_O_WRONLY) != SCE_O_WRONLY&&strstr(filename, "/eboot.bin") != NULL) {
+	ksceKernelGetProcessTitleId(ksceKernelGetProcessId(), titleid, sizeof(titleid));
+
+	if(memcmp("main", titleid, sizeof("main") - 1)==0&&(flag&SCE_O_WRONLY) != SCE_O_WRONLY&&strstr(filename, "/eboot.bin") != NULL) {
 		if(getNewPath(filename, new_path, NULL)) {
 			if(ksceIoGetstat(new_path, &k_stat)>-1)
 				ret = TAI_CONTINUE(int, ref_hooks[2], new_path, flag, mode);
