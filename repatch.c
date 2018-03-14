@@ -27,6 +27,7 @@ static int getNewPath(const char *old_path, char *new_path, const char *titleid)
 			return 0;
 		snprintf(new_path, MAX_PATH_LEN, "ux0:/rePatch%s",old_path_file);
 	}
+	printf("new path %s\n", new_path);
 	return 1;
 }
 
@@ -36,9 +37,11 @@ static int ksceIoOpenForPid_patched(SceUID pid, const char *filename, int flag, 
 	if (memcmp("app0:", filename, sizeof("app0:") - 1)==0) {
 		char new_path[MAX_PATH_LEN];
 		char titleid[32];
+		SceIoStat k_stat;
 		if((ret = ksceKernelGetProcessTitleId(pid, titleid, sizeof(titleid)))>-1){
 			getNewPath(filename, new_path, titleid);
-			ret = ksceIoOpen(new_path, flag, mode);
+			if((ret=ksceIoGetstat(new_path, &k_stat))>-1)
+				ret = ksceIoOpen(new_path, flag, mode);
 		}
 	}
 	if(ret < 0) ret = TAI_CONTINUE(int, ref_hooks[0], pid, filename, flag, mode);
@@ -72,10 +75,9 @@ static int ksceIoOpen_patched(const char *filename, int flag, SceIoMode mode) {
 	SceIoStat k_stat;
 	char titleid[32];
 	ENTER_SYSCALL(state);
-	ksceKernelGetProcessTitleId(ksceKernelGetProcessId(), titleid, sizeof(titleid));
-
-	if(memcmp("main", titleid, sizeof("main") - 1)==0&&(flag&SCE_O_WRONLY) != SCE_O_WRONLY&&strstr(filename, "/eboot.bin") != NULL) {
-		if(getNewPath(filename, new_path, NULL)) {
+	if((flag&SCE_O_WRONLY) != SCE_O_WRONLY&&strstr(filename, "/eboot.bin") != NULL) {
+		ksceKernelGetProcessTitleId(ksceKernelGetProcessId(), titleid, sizeof(titleid));
+		if(memcmp("main", titleid, sizeof("main") - 1)==0&&getNewPath(filename, new_path, NULL)) {
 			if(ksceIoGetstat(new_path, &k_stat)>-1)
 				ret = TAI_CONTINUE(int, ref_hooks[2], new_path, flag, mode);
 		}
@@ -89,7 +91,7 @@ void _start() __attribute__ ((weak, alias ("module_start")));
 int module_start(SceSize argc, const void *args) {
 	hooks_uid[0] = taiHookFunctionExportForKernel(KERNEL_PID, &ref_hooks[0], "SceIofilemgr", TAI_ANY_LIBRARY, 0xC3D34965, ksceIoOpenForPid_patched);
 	hooks_uid[1] = taiHookFunctionExportForKernel(KERNEL_PID, &ref_hooks[1], "SceIofilemgr", TAI_ANY_LIBRARY, 0x8E7E11F2, _sceIoGetstat_patched);
-	hooks_uid[2] = taiHookFunctionExportForKernel(KERNEL_PID, &ref_hooks[2], "SceIofilemgr", TAI_ANY_LIBRARY, 0x75192972, ksceIoOpen_patched);
+	hooks_uid[2] = taiHookFunctionImportForKernel(KERNEL_PID, &ref_hooks[2], "SceKernelModulemgr", TAI_ANY_LIBRARY, 0x75192972, ksceIoOpen_patched);
 	return SCE_KERNEL_START_SUCCESS;
 }
 
