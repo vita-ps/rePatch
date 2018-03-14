@@ -27,7 +27,6 @@ static int getNewPath(const char *old_path, char *new_path, const char *titleid)
 			return 0;
 		snprintf(new_path, MAX_PATH_LEN, "ux0:/rePatch%s",old_path_file);
 	}
-	printf("new path %s\n", new_path);
 	return 1;
 }
 
