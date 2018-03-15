@@ -1,6 +1,6 @@
 # How to use:
 
-Official rePatch support discord: https://discord.gg/tFrAhb
+Official rePatch support discord: https://discord.gg/gPTwn3J
 
 3.65 Confirmed working: https://twitter.com/dots_tb/status/972922611536576512
 
