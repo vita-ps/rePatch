@@ -1,5 +1,7 @@
 # How to use:
 
+Official rePatch support discord: https://discord.gg/tFrAhb
+
 3.65 Confirmed working: https://twitter.com/dots_tb/status/972922611536576512
 
 Eboot.bin patching added based off: https://github.com/GabyPCgeeK/rePatch
