@@ -1,3 +1,5 @@
+# Please use for future installs: https://github.com/dots-tb/rePatch-reDux0
+
 # How to use:
 
 Official rePatch support discord: https://discord.gg/gPTwn3J
